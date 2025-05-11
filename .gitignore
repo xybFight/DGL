@@ -1,0 +1,13 @@
+result/
+__pycache__/
+*.pt
+test/
+*.gv
+*.log
+*.dat
+*dot
+*.png
+*.res
+*.sol
+data/
+figure/
