@@ -1,6 +1,5 @@
 result/
 __pycache__/
-*.pt
 test/
 *.gv
 *.log
