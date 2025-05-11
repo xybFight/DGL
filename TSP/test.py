@@ -10,8 +10,8 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, "..")
 sys.path.insert(0, "../..")
 import logging
-from new_version.utils.utils import create_logger, copy_all_src
-from new_version.TSP.TSPTester import TSPTester as Tester
+from DAIN.utils.utils import create_logger, copy_all_src
+from DAIN.TSP.TSPTester import TSPTester as Tester
 import time 
 
 

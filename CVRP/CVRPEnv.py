@@ -9,6 +9,7 @@ from utils.utils import *
 
 import time
 import functools
+import math
 
 def time_count(func):
     @functools.wraps(func)
@@ -39,12 +40,12 @@ def get_random_problems(batch_size, problem_size):
     elif problem_size == 50:
         demand_scaler = 40
     elif problem_size == 100:
-        demand_scaler = 50
+        demand_scaler = 500
     else:
-        demand_scaler = 50
+        demand_scaler = 500
         # raise NotImplementedError
 
-    node_demand = torch.randint(1, 10, size=(batch_size, problem_size)) / float(demand_scaler)
+    node_demand = torch.randint(1, 200, size=(batch_size, problem_size)) / float(demand_scaler)
     # shape: (batch, problem)
 
     return depot_xy, node_xy, node_demand
@@ -135,6 +136,32 @@ def load_cvrp_instances_with_baselines(root, problem_type, size, distribution):
     return cvrp_instances, baseline_tours, baseline_lens
 
 
+def load_cvrplib(file_path):
+    # assert problem_type == "cvrp"
+    # assert size in (50, 500, 5000)
+    # assert distribution in ('uniform', 'clustered1', 'clustered2', 'explosion', 'implosion')
+
+    # # TODO: compare HGS and LKH3 after finishing LKH3 baselines and set final baseline
+    # baseline = "HGS"
+
+    # instance_root = Path(root)
+    # instance_dir = f"data_farm/{problem_type}/{problem_type}{size}/"
+    # instance_name = f"{problem_type}{size}_{distribution}.txt"
+    instance_file = file_path
+
+    cvrp_instances = read_cvrp_instances_from_file(instance_file)
+    # num = tsp_instances.size(0)
+    # print(tsp_instances.size())
+
+    # solution_root = Path(root)
+    # solution_dir = f"solution_farm/{problem_type}{size}_{distribution}/"
+    # solution_name = f"{baseline}.txt"
+    # solution_file = solution_root.joinpath(solution_dir).joinpath(solution_name)
+    # baseline_tours, baseline_lens, _ = read_solutions_from_file(solution_file)
+
+    return cvrp_instances
+
+
 @dataclass
 class Reset_State:
     problems: torch.Tensor
@@ -186,8 +213,11 @@ class CVRPEnv:
         self.aggregation_nums = env_params['aggregation_nums']
     
     def load_data(self, test_episode, problem_size):
-        (self.raw_depot_node_xy, self.raw_node_xy, self.raw_node_demand), self.baseline_tours, self.baseline_len = load_cvrp_instances_with_baselines(self.env_params["data_path"],'cvrp',self.problem_size,self.env_params['distribution'])
-        print("baseline_len avg", torch.mean(self.baseline_len))
+        if self.env_params["baseline_path"] == "":
+             (self.raw_depot_node_xy, self.raw_node_xy, self.raw_node_demand) = load_cvrplib(self.env_params["data_path"])
+        else:
+            (self.raw_depot_node_xy, self.raw_node_xy, self.raw_node_demand), self.baseline_tours, self.baseline_len = load_cvrp_instances_with_baselines(self.env_params["data_path"],'cvrp',self.problem_size,self.env_params['distribution'])
+            print("baseline_len avg", torch.mean(self.baseline_len))
 
     def load_problems(self, episode, batch_size, problem_size):
         self.episode = episode

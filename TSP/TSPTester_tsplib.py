@@ -100,7 +100,7 @@ class TSPTester:
         gap_AM = AverageMeter()
         best_score_AM = AverageMeter()
 
-        print("=======================self.env.baseline_len:", torch.mean(self.env.baseline_len))
+        # print("=======================self.env.baseline_len:", torch.mean(self.env.baseline_len))
         save_gap = []
         self.model.eval()
 
@@ -114,7 +114,7 @@ class TSPTester:
                 self.env.step_size = self.tester_params['test_batch_size']
                 # print("self.env.step_size", self.env.step_size)
                 while self.env.start_idx < batch_size:
-                    best_gap, gap, best_score,score = self.beamsearch_tour_nodes_shortest(beam_size, self.env.batch_size, self.env.problem_size, 
+                    best_gap, gap, best_score,score, shortest_tours = self.beamsearch_tour_nodes_shortest(beam_size, self.env.batch_size, self.env.problem_size, 
                                                                     self.dtypeFloat, self.dtypeLong, probs_type='logits', random_start=False)
                     del self.model.dis_matrix
                     torch.cuda.empty_cache()
@@ -125,21 +125,22 @@ class TSPTester:
 
                     self.env.start_idx += self.env.step_size
 
-                batch_baseline_len = torch.mean(self.env.baseline_len[episode:episode + batch_size])
+                # batch_baseline_len = torch.mean(self.env.baseline_len[episode:episode + batch_size])
                 # self.logger.info("batch_baseline: %s", self.env.baseline_len[episode:episode + batch_size])
                 episode += batch_size
                 
 
-                batch_gap = (score - batch_baseline_len)/batch_baseline_len
+                # batch_gap = (score - batch_baseline_len)/batch_baseline_len
 
-                gap_AM.update(batch_gap, batch_size)
+                # gap_AM.update(batch_gap, batch_size)
 
-                self.logger.info("episode {:3d}: avg_score {:.4f} batch_gap {:.4f} avg_gap {:.4f}".format(episode,score_AM.avg,batch_gap,gap_AM.avg))
+                # self.logger.info("episode {:3d}: avg_score {:.4f} batch_gap {:.4f} avg_gap {:.4f}".format(episode,score_AM.avg,batch_gap,gap_AM.avg))
 
-        avg_gap = (score_AM.avg - torch.mean(self.env.baseline_len[:test_episodes]))/torch.mean(self.env.baseline_len[:test_episodes])
-        self.logger.info("gap {:.4f}".format(avg_gap))
+        # avg_gap = (score_AM.avg - torch.mean(self.env.baseline_len[:test_episodes]))/torch.mean(self.env.baseline_len[:test_episodes])
+        
+        self.logger.info("score {:.4f}".format(score))
 
-        return avg_gap
+        return score, shortest_tours
 
     @torch.no_grad()
     def beamsearch_tour_nodes_shortest(self, beam_size, batch_size, num_nodes,
@@ -188,15 +189,15 @@ class TSPTester:
         shortest_lens, index = torch.min(view_reward, dim=1)
 
         if self.tester_params["test_mode"] == "aug_test":
-            shortest_tours = torch.gather(self.env.selected_node_list.view(self.env.batch_size//self.env.aug_size,beam_size*self.env.pomo_size*self.env.aug_size,-1), 1, index[:,None].unsqueeze(1).expand(self.env.batch_size//self.env.aug_size,1,num_nodes-1)).squeeze(1)
+            shortest_tours = torch.gather(self.env.selected_node_list.view(self.env.batch_size//self.env.aug_size,beam_size*self.env.pomo_size*self.env.aug_size,-1), 1, index[:,None].unsqueeze(1).expand(self.env.batch_size//self.env.aug_size,1,num_nodes)).squeeze(1)
         else:
-            shortest_tours = torch.gather(self.env.selected_node_list.view(self.env.batch_size,beam_size*self.env.pomo_size,-1), 1, index[:,None].unsqueeze(1).expand(self.env.batch_size,1,num_nodes-1)).squeeze(1)
+            shortest_tours = torch.gather(self.env.selected_node_list.view(self.env.batch_size,beam_size*self.env.pomo_size,-1), 1, index[:,None].unsqueeze(1).expand(self.env.batch_size,1,num_nodes)).squeeze(1)
 
 
         score = shortest_lens.mean()
 
         # return keep, best_gap.item(), gap.item(), score.item()
-        return 0, 0, 0, score.item()
+        return 0, 0, 0, score.item(), shortest_tours
     
 
 

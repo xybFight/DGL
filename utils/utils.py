@@ -44,6 +44,399 @@ b = os.path.abspath('.')
 result_folder = b+'/result/' + process_start_time.strftime("%Y%m%d_%H%M%S") + '{desc}'
 
 
+tsplib_collections = {
+    'eil51': 426,
+    'berlin52': 7542,
+    'st70': 675,
+    'pr76': 108159,
+    'eil76': 538,
+    'rat99': 1211,
+    'kroA100': 21282,
+    'kroE100': 22068,
+    'kroB100': 22141,
+    'rd100': 7910,
+    'kroD100': 21294,
+    'kroC100': 20749,
+    'eil101': 629,
+    'lin105': 14379,
+    'pr107': 44303,
+    'pr124': 59030,
+    'bier127': 118282,
+    'ch130': 6110,
+    'pr136': 96772,
+    'pr144': 58537,
+    'kroA150': 26524,
+    'kroB150': 26130,
+    'ch150': 6528,
+    'pr152': 73682,
+    'u159': 42080,
+    'rat195': 2323,
+    'd198': 15780,
+    'kroA200': 29368,
+    'kroB200': 29437,
+    'tsp225': 3916,
+    'ts225': 126643,
+    'pr226': 80369,
+    'gil262': 2378,
+    'pr264': 49135,
+    'a280': 2579,
+    'pr299': 48191,
+    'lin318': 42029,
+    'rd400': 15281,
+    'fl417': 11861,
+    'pr439': 107217,
+    'pcb442': 50778,
+    'd493': 35002,
+    'u574': 36905,
+    'rat575': 6773,
+    'p654': 34643,
+    'd657': 48912,
+    'u724': 41910,
+    'rat783': 8806,
+    'pr1002': 259045,
+    'u1060': 224094,
+    'vm1084': 239297,
+    'pcb1173': 56892,
+    'd1291': 50801,
+    'rl1304': 252948,
+    'rl1323': 270199,
+    'nrw1379': 56638,
+    'fl1400': 20127,
+    'u1432': 152970,
+    'fl1577': 22249,
+    'd1655': 62128,
+    'vm1748': 336556,
+    'u1817': 57201,
+    'rl1889': 316536,
+    'd2103': 80450,
+    'u2152': 64253,
+    'u2319': 234256,
+    'pr2392': 378032,
+    'pcb3038': 137694,
+    'fl3795': 28772,
+    'fnl4461': 182566,
+    'rl5915': 565530,
+    'rl5934': 556045,
+    'rl11849': 923288,
+    'usa13509': 19982859,
+    'brd14051': 469385,
+    'd15112': 1573084,
+    'd18512': 645238
+}
+
+
+# national_collections = {
+#   'WI29': 27603,
+#   'DJ38': 6656,
+#   'QA194': 9352,
+#   'UY734': 79114,
+#   'ZI929': 95345,
+#   'LU980': 11340,
+#   'RW1621': 26051,
+#   'MU1979': 86891,
+#   'NU3496': 96132,
+#   'CA4663': 1290319,
+#   'TZ6117': 394609,
+#   'EG7146': 172386,
+#   'YM7663': 238314,
+#   'PM8079': 114831,
+#   'EI8246': 206128,
+#   'AR9152': 837377,
+#   'JA9847': 491924,
+#   'GR9882': 300899,
+#   'KZ9976': 1061387,
+#   'FI10639': 520383,
+#   'MO14185': 427246,
+#   'HO14473': 176940,
+#   'IT16862': 557315,
+#   'VM22775': 569115,
+#   'SW24978': 855597,
+#   'BM33708': 959011,
+# # 'CH71009': 4565452,
+# }
+
+
+cvrplib_collections = {
+    "X-n101-k25": 27591,
+    "X-n106-k14": 26362,
+    "X-n110-k13": 14971,
+    "X-n115-k10": 12747,
+    "X-n120-k6": 13332,
+    "X-n125-k30": 55539,
+    "X-n129-k18": 28940,
+    "X-n134-k13": 10916,
+    "X-n139-k10": 13590,
+    "X-n143-k7": 15700,
+    "X-n148-k46": 43448,
+    "X-n153-k22": 21220,
+    "X-n157-k13": 16876,
+    "X-n162-k11": 14138,
+    "X-n167-k10": 20557,
+    "X-n172-k51": 45607,
+    "X-n176-k26": 47812,
+    "X-n181-k23": 25569,
+    "X-n186-k15": 24145,
+    "X-n190-k8": 16980,
+    "X-n195-k51": 44225,
+    "X-n200-k36": 58578,
+    "X-n204-k19": 19565,
+    "X-n209-k16": 30656,
+    "X-n214-k11": 10856,
+    "X-n219-k73": 117595,
+    "X-n223-k34": 40437,
+    "X-n228-k23": 25742,
+    "X-n233-k16": 19230,
+    "X-n237-k14": 27042,
+    "X-n242-k48": 82751,
+    "X-n247-k50": 37274,
+    "X-n251-k28": 38684,
+    "X-n256-k16": 18839,
+    "X-n261-k13": 26558,
+    "X-n266-k58": 75478,
+    "X-n270-k35": 35291,
+    "X-n275-k28": 21245,
+    "X-n280-k17": 33503,
+    "X-n284-k15": 20226,
+    "X-n289-k60": 95151,
+    "X-n294-k50": 47161,
+    "X-n298-k31": 34231,
+    "X-n303-k21": 21736,
+    "X-n308-k13": 25859,
+    "X-n313-k71": 94043,
+    "X-n317-k53": 78355,
+    "X-n322-k28": 29834,
+    "X-n327-k20": 27532,
+    "X-n331-k15": 31102,
+    "X-n336-k84": 139111,
+    "X-n344-k43": 42050,
+    "X-n351-k40": 25896,
+    "X-n359-k29": 51505,
+    "X-n367-k17": 22814,
+    "X-n376-k94": 147713,
+    "X-n384-k52": 65940,
+    "X-n393-k38": 38260,
+    "X-n401-k29": 66154,
+    "X-n411-k19": 19712,
+    "X-n420-k130": 107798,
+    "X-n429-k61": 65449,
+    "X-n439-k37": 36391,
+    "X-n449-k29": 55233,
+    "X-n459-k26": 24139,
+    "X-n469-k138": 221824,
+    "X-n480-k70": 89449,
+    "X-n491-k59": 66483,
+    "X-n502-k39": 69226,
+    "X-n513-k21": 24201,
+    "X-n524-k153": 154593,
+    "X-n536-k96": 94846,
+    "X-n548-k50": 86700,
+    "X-n561-k42": 42717,
+    "X-n573-k30": 50673,
+    "X-n586-k159": 190316,
+    "X-n599-k92": 108451,
+    "X-n613-k62": 59535,
+    "X-n627-k43": 62164,
+    "X-n641-k35": 63684,
+    "X-n655-k131": 106780,
+    "X-n670-k130": 146332,
+    "X-n685-k75": 68205,
+    "X-n701-k44": 81923,
+    "X-n716-k35": 43373,
+    "X-n733-k159": 136187,
+    "X-n749-k98": 77269,
+    "X-n766-k71": 114417,
+    "X-n783-k48": 72386,
+    "X-n801-k40": 73311,
+    "X-n819-k171": 158121,
+    "X-n837-k142": 193737,
+    "X-n856-k95": 88965,
+    "X-n876-k59": 99299,
+    "X-n895-k37": 53860,
+    "X-n916-k207": 329179,
+    "X-n936-k151": 132715,
+    "X-n957-k87": 85465,
+    "X-n979-k58": 118976,
+    "X-n1001-k43": 72355,
+}
+
+def avg_list(list_object):
+    return sum(list_object) / len(list_object) if len(list_object) > 0 else 0
+
+
+def parse_tsplib_name(tsplib_name):
+    return "".join(filter(str.isalpha, tsplib_name)), int("".join(filter(str.isdigit, tsplib_name)))
+
+def parse_cvrplib_name(cvrplib_name):
+    problem_set, size, _ = cvrplib_name.split("-")
+    size = int("".join(list(filter(str.isdigit, size)))) - 1
+    return problem_set, size
+
+def read_tsplib_file(file_path):
+    """
+    The read_tsplib_file function reads a TSPLIB file and returns the nodes and name of the problem.
+    
+    :param file_path: Specify the path to the file that is being read
+    :return: A list of nodes and a name
+    """
+    properties = {}
+    reading_properties_flag = True
+    nodes = []
+
+
+    import os
+
+    current_working_directory = os.getcwd()
+    print("当前工作路径是：", current_working_directory)
+
+    with open(file_path, "r", encoding="utf8") as read_file:
+        line = read_file.readline()
+        while line.strip():
+            # read properties
+            if reading_properties_flag:
+                if ':' in line:
+                    key, val = [x.strip() for x in line.split(':')]
+                    properties[key] = val
+                else:
+                    reading_properties_flag = False
+
+            # read node coordinates
+            else:
+                if line.startswith("NODE_COORD_SECTION"):
+                    pass
+                elif line.startswith("EOF"):
+                    pass
+                else:
+                    line_contents = [x.strip() for x in line.split(" ") if x.strip()]
+                    _, x, y = line_contents
+                    nodes.append([float(x), float(y)])
+            line = read_file.readline()
+
+    return nodes, properties["NAME"]
+
+
+def read_cvrplib_file(file_path):
+    """
+    The read_cvrplib_file function reads a CVRP file and returns the depot, nodes, demands and properties.
+    
+    :param file_path: Specify the path of the file to be read
+    :return: A tuple of four elements:
+    """
+    properties = {}
+    reading_properties_flag = True
+    reading_nodes_flag = True
+    read_demands_flag = True
+    read_depot_flag = True
+
+    depot_nodes = []
+    demands = []
+    depot_check = []
+
+    with open(file_path, "r", encoding="utf8") as read_file:
+        line = read_file.readline()
+        while line.strip():
+            # read properties
+            if reading_properties_flag:
+                if ':' in line:
+                    key, val = [x.strip() for x in line.split(':')]
+                    properties[key] = val
+                else:
+                    reading_properties_flag = False
+
+            # read node coordinates
+            elif reading_nodes_flag:
+                if line.startswith("NODE_COORD_SECTION"):
+                    pass
+                elif line.startswith("DEMAND_SECTION"):
+                    reading_nodes_flag = False
+                else:
+                    line_contents = [x.strip() for x in line.replace(" ", "\t").split("\t") if x.strip()]
+                    _, x, y = line_contents
+                    depot_nodes.append([float(x), float(y)])
+
+            # read demands coordinates
+            elif read_demands_flag:
+                if line.startswith("DEMAND_SECTION"):
+                    pass
+                elif line.startswith("DEPOT_SECTION"):
+                    read_demands_flag = False
+                else:
+                    line_contents = [x.strip() for x in line.replace(" ", "\t").split("\t") if x.strip()]
+                    demands.append(int(line_contents[1]))
+
+            # read depot position
+            elif read_depot_flag:
+                if line.startswith("DEPOT_SECTION"):
+                    pass
+                elif line.startswith("EOF"):
+                    read_depot_flag = False
+                else:
+                    line_contents = [x.strip() for x in line.replace(" ", "\t").split("\t") if x.strip()]
+                    depot_check.append(int(line_contents[0]))
+            line = read_file.readline()
+
+    depot = depot_nodes[0]
+    nodes = depot_nodes[1:]
+    demands = demands[1:]
+
+    return depot, nodes, demands, properties
+
+
+
+def load_tsplib_file(root, tsplib_name):
+    tsplib_dir = "tsplib"
+    file_name = f"{tsplib_name}.tsp"
+    file_path = root.joinpath(tsplib_dir).joinpath(file_name)
+    instance, name = read_tsplib_file(file_path)
+
+    instance = torch.tensor(instance)
+    return instance, name
+
+def load_cvrplib_file(root, cvrplib_name):
+    cvrplib_dir = "vrplib"
+    file_name = f"{cvrplib_name}.vrp"
+    file_path = root.joinpath(cvrplib_dir).joinpath(file_name)
+    depot, nodes, demands, properties = read_cvrplib_file(file_path)
+
+    depot = torch.tensor(depot)
+    nodes = torch.tensor(nodes)
+    demands = torch.tensor(demands)
+    capacity = torch.tensor(int(properties["CAPACITY"]))
+    name = properties["NAME"]
+    return depot, nodes, demands, capacity, name
+
+
+
+def normalize_tsp_to_unit_board(tsp_instance):
+    """
+    normalize a tsp instance to a [0, 1]^2 unit board, prefer to have points on both x=0 and y=0
+    :param tsp_instance: a (tsp_size, 2) tensor
+    :return: a (tsp_size, 2) tensor, a normalized tsp instance
+    """
+    normalized_instance = tsp_instance.clone()
+    normalization_factor = (normalized_instance.max(dim=0).values - normalized_instance.min(dim=0).values).max()
+    normalized_instance = (normalized_instance - normalized_instance.min(dim=0).values) / normalization_factor
+    return normalized_instance
+
+
+def normalize_nodes_to_unit_board(nodes):
+    return normalize_tsp_to_unit_board(nodes)
+
+
+def get_dist_matrix(instance):
+    size = instance.shape[0]
+    x = instance.unsqueeze(0).repeat((size, 1, 1))
+    y = instance.unsqueeze(1).repeat((1, size, 1))
+    return torch.norm(x - y, p=2, dim=-1)
+
+
+def calculate_tour_length_by_dist_matrix(dist_matrix, tours):
+    # useful to evaluate one/multiple solutions on one (not-extremely-huge) instance
+    if tours.dim() == 1:
+        tours = tours.unsqueeze(0)
+    tour_shifts = torch.roll(tours, shifts=-1, dims=1)
+    tour_lens = dist_matrix[tours, tour_shifts].sum(dim=1)
+    return tour_lens
+
 def get_result_folder():
     return result_folder
 
@@ -331,12 +724,12 @@ def _build_log_image_plt(img_params,
     plt.grid(config["grid"])
 
 
-def copy_all_src(dst_root):
+def copy_all_src(dst_root, src_path):
     # execution dir
     if os.path.basename(sys.argv[0]).startswith('ipykernel_launcher'):
         execution_path = os.getcwd()
     else:
-        execution_path = os.path.dirname(sys.argv[0])
+        execution_path = os.path.dirname(src_path)
 
     # home dir setting
     tmp_dir1 = os.path.abspath(os.path.join(execution_path, sys.path[0]))
@@ -359,7 +752,7 @@ def copy_all_src(dst_root):
         if hasattr(value, '__file__') and value.__file__:
             src_abspath = os.path.abspath(value.__file__)
 
-            if os.path.commonprefix([home_dir, src_abspath]) == home_dir:
+            if os.path.commonprefix([execution_path, src_abspath]) == execution_path:
                 dst_filepath = os.path.join(dst_path, os.path.basename(src_abspath))
 
                 if os.path.exists(dst_filepath):
@@ -523,5 +916,16 @@ def run_aug(aug,x,aug_num=None,aug_all=False):
         else:
             x_out[0]=x_clone[0]
     return x_out
+
+
+def choose_bsz(size):
+    if size<=200:
+        return 64
+    elif size<=1000:
+        return 32
+    elif size<=5000:
+        return 16
+    else:
+        return 4
 
 

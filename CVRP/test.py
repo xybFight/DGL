@@ -1,7 +1,7 @@
 DEBUG_MODE = True
 USE_CUDA = True
 # USE_CUDA = not DEBUG_MODE
-CUDA_DEVICE_NUM = 1
+CUDA_DEVICE_NUM = 0
 
 # Path Config
 import os
@@ -26,7 +26,7 @@ test_data_path = b+"/../data/"
 
 # baseline_path = b+"/data/" + file_name + '/LKH3_runs1.txt'
 
-append_information = [True, False, True, False, True, True, False, False, False, False, False, False, False]
+append_information = [True, True, True, False, True, True, False, False, False, False, False, False, False]
 #                      0      1     2    3      4      5      6      7      8      9     10   11    12
 # 0.distance_to_current,  1.average_distance_to_unvisited,  2.std_dev_distance_to_unvisited,  3.distance_to_destination, 4.sin_to_destination, 
 # 5.cos_to_destination,   6.average_distance_to_all         7.std_dev_distance_to_all         8.first_node               9 knn_mean                    10. knn_std
@@ -97,8 +97,8 @@ tester_params = {
         'enable': True,  # enable loading pre-trained model
         # 'path': './result/20240723_220941_train',  # directory path of pre-trained model and log files saved.
         # 'file': "checkpoint-25.pt",  # epoch version of pre-trained model to laod.
-        'path': "./result/20240816_171828_train",
-        'file': "checkpoint-25.pt"
+        'path': './pretrain',
+        'file': "checkpoint-100.pt"
                   },
     }
 

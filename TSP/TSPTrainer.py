@@ -7,10 +7,10 @@ from torch.optim.lr_scheduler import MultiStepLR as Scheduler
 import random
 import numpy as np
 import os
-from new_version.TSP.TSPModel import TSPModel as Model
-from new_version.TSP.TSPEnv import TSPEnv as Env
-from new_version.utils.utils import *
-from new_version.utils.beamsearch import Beamsearch
+from DAIN.TSP.TSPModel import TSPModel as Model
+from DAIN.TSP.TSPEnv import TSPEnv as Env
+from DAIN.utils.utils import *
+from DAIN.utils.beamsearch import Beamsearch
 
  
 
