@@ -33,3 +33,16 @@ We would like to thank the following repository, which is the baseline of our co
 https://github.com/Kasumigaoka-Utaha/INViT
 
 https://github.com/CIAM-Group/NCO_code/tree/main/single_objective/LEHD
+
+
+### Citation
+
+If you find our paper and code useful, please cite our paper:
+
+```tex
+@InProceedings{DGL2025, 
+              author={Xiao, Yubin and Wu, Yuesong and Cao, Rui and Wang, Di and Cao, Zhiguang and Wu, Xuan and Zhao, Peng and Li, Yuanshu and Zhou, You and Jiang, Yuan}, 
+              title = {DGL: Dynamic Global-Local Information Aggregation for Scalable VRP Generalization with Self-Improvement Learning}, 
+              booktitle={Proceedings of International Joint Conference on Artificial Intelligence}, 
+              year={2025}}
+```
